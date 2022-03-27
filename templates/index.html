@@ -12,7 +12,15 @@
     
 <style>
 body {
-  background-image: url('https://coolbackgrounds.io/images/backgrounds/white/white-triangle-369b8d2d.jpg');
+  background-image: url('https://wallpaperaccess.com/full/11207.jpg');
+}
+</style>
+
+<style>
+.myDiv {
+  border: 10px outset red;
+  background-color: white;    
+  text-align: center;
 }
 </style>
 
@@ -31,7 +39,7 @@ body {
 
 <div class="container">
  
-    <form action="{{ url_for('model')}}"method="post">
+    <form method="POST" id='postForm'>
     
     <div class="form-group">
     
@@ -5335,15 +5343,67 @@ body {
        
 		
         <div class="form-group">  
+        
+        
 
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
         
         </div>
         
     </form>
+    
+     
+     
+   
+    <div id='pred' class="myDiv"> </div>
+    
+   
+    
+    
+    
+    
+       
+ 
 
  
+  
+  
 </div>
 
+
+
+
+  <script>
+
+
+    document.getElementById("postForm").addEventListener('submit',getData);
+         
+    function getData(e){
+        e.preventDefault();
+        
+        var year= document.getElementById('year').value;
+        var mileage= document.getElementById('mileage').value;
+        var city= document.getElementById('city').value;
+        var state= document.getElementById('state').value;
+        var make= document.getElementById('make').value;
+        var model= document.getElementById('model').value;
+        
+        var params={user_year:year,user_mileage:mileage,user_city:city,user_state:state,
+        user_make:make,user_model:model}
+        
+        var xhr=new XMLHttpRequest();
+        xhr.open('post','../output',true);
+        xhr.setRequestHeader('Content-type','application/json');
+        
+        xhr.onload=function(){
+          
+          document.getElementById('pred').innerHTML=this.responseText;
+        }
+        xhr.send(JSON.stringify(params));
+    
+    
+      }
+
+   </script>
 </body>
 </html>
