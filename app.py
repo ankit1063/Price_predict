@@ -3,21 +3,20 @@ import pandas as pd
 import numpy as np
 import pickle
 
+import warnings
 
+warnings.filterwarnings("ignore")
 
+# from pydantic import NoneIsAllowedError
+#from python_library.test_lib2 import test_func
+
+with open('model_xg.pkl' , 'rb') as f:
+  model1 = pickle.load(f)
 
 app = Flask(__name__)
 
-with open('model_xg.pkl' , 'rb') as f:
-    model1 = pickle.load(f)
-
-
-
-
 @app.route("/", methods =['GET','POST'])
-
 def home():
-    
     return render_template("index.html")
 
 
@@ -54,7 +53,7 @@ def output():
     condition=(mileage/year_used)
     features.append(condition)
     
-    feat = [np.array(features)]
+    feat = [np.asarray(features,dtype=None,order=None)]
     
     t_2=pd.DataFrame(feat)
     t_2.rename(columns = {0:'Year', 
@@ -88,6 +87,6 @@ def output():
  
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
     
     
